@@ -43,22 +43,14 @@ function App() {
   return (
     <div className="App">
       <h1>My App</h1>
-      <div className="form-container">
-      {/* <inputGroup>
-              <FormControl
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Serach"
-              ></FormControl>
-            </inputGroup> */}
-            <div className="form-input">
-          <label htmlFor="id">xxxxx</label>
+      <div className="form-input w-25">
+          <label htmlFor="Search">Search</label>
           <input
             type="text"
             id="id" onChange={(e) => setSearch(e.target.value)}
-
           />
         </div>
-
+      <div className="form-container">
       <div className="form-input">
           <label htmlFor="id">id:</label>
           <input
@@ -107,7 +99,7 @@ function App() {
         {items.filter((item) => {
               return search.toLowerCase() === ""
                 ? item
-                : item.name.toLowerCase().includes(search);
+                : item.name.toLowerCase().includes(search) || item.id.toLowerCase().includes(search) || item.des.toLowerCase().includes(search);
             }).map((item, index) => (
           <li key={index} className="item-container">
             <div className="item-info">
