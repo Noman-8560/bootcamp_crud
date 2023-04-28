@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import './App.css';
 
+
 function App() {
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState({
@@ -37,11 +38,27 @@ function App() {
     setEditIndex(index);
     setNewItem(items[index]);
   };
+  const [search, setSearch] = useState("");
 
   return (
     <div className="App">
       <h1>My App</h1>
       <div className="form-container">
+      {/* <inputGroup>
+              <FormControl
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Serach"
+              ></FormControl>
+            </inputGroup> */}
+            <div className="form-input">
+          <label htmlFor="id">xxxxx</label>
+          <input
+            type="text"
+            id="id" onChange={(e) => setSearch(e.target.value)}
+
+          />
+        </div>
+
       <div className="form-input">
           <label htmlFor="id">id:</label>
           <input
@@ -87,7 +104,11 @@ function App() {
         </div>
       </div>
       <ul className="item-list">
-        {items.map((item, index) => (
+        {items.filter((item) => {
+              return search.toLowerCase() === ""
+                ? item
+                : item.name.toLowerCase().includes(search);
+            }).map((item, index) => (
           <li key={index} className="item-container">
             <div className="item-info">
             <span className="item-price">{item.id}</span>
