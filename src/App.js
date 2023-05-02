@@ -1,11 +1,17 @@
-
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
+const getLocalItems = () => {
+  let list = localStorage.getItem("lists");
+  if (list) {
+    return JSON.parse(localStorage.getItem("lists"));
+  } else {
+    return [];
+  }
+};
 
 function App() {
-  const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState({
     id: '',
     name: '',
@@ -13,6 +19,11 @@ function App() {
   });
   const [editMode, setEditMode] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
+
+  const [items, setItems] = useState(getLocalItems());
+  useEffect(() => {
+    localStorage.setItem("lists", JSON.stringify(items));
+  }, [items]);
 
   const handleAddItem = () => {
     setItems([...items, newItem]);
@@ -42,16 +53,17 @@ function App() {
 
   return (
     <div className="App">
-      <h1>My App</h1>
-      <div className="form-input w-25">
+      <h1>My CRUD App</h1>
+      <div className="form-input w-25 srch">
           <label htmlFor="Search">Search</label>
           <input
             type="text"
-            id="id" onChange={(e) => setSearch(e.target.value)}
+            id="id" 
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
       <div className="form-container">
-      <div className="form-input">
+       <div className="form-input">
           <label htmlFor="id">id:</label>
           <input
             type="number"
@@ -59,6 +71,7 @@ function App() {
             value={newItem.id}
             onChange={(event) =>
               setNewItem({ ...newItem, id: event.target.value })
+            
             }
           />
         </div>
@@ -91,7 +104,7 @@ function App() {
               Save
             </button>
           ) : (
-            <button onClick={handleAddItem}>Add</button>
+            <button className='btn1' onClick={handleAddItem}>Add</button>
           )}
         </div>
       </div>
@@ -108,8 +121,9 @@ function App() {
               <span className="item-quantity">{item.des}</span>
             </div>
             <div className="item-buttons">
-              <button className="edit-button" onClick={() => handleEditButtonClick(index)}>Edit</button>
-              <button className="delete-button" onClick={() => handleDeleteItem(index)}>Delete</button>
+            <span className="badge bg-success" type="button" onClick={() => handleEditButtonClick(index)}>Edit</span>
+            <span className="badge bg-danger dlt" type="button" onClick={() => handleDeleteItem(index)}>Delete</span>
+
             </div>
           </li>
         ))}
